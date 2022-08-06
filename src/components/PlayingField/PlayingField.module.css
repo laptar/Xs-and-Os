@@ -1,0 +1,9 @@
+.field {
+  display: inline-flex;
+  /* margin: auto; */
+}
+.field td {
+  background-color: aqua;
+  width: 100px;
+  height: 100px;
+}
