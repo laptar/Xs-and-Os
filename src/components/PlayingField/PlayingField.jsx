@@ -1,12 +1,28 @@
 import { useEffect } from 'react';
-import { useState } from 'react';
+import { useRef } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+
 import s from './PlayingField.module.css';
+import {
+  changeWinnerAction,
+  addWinXAction,
+  addWinOAction,
+  addNewStepAction,
+} from 'redux/actions';
 
-export const PlayingField = () => {
-  const [field, setField] = useState([0, 1, 2, 3, 4, 5, 6, 7, 8]);
-  const [winner, setWinner] = useState(null);
+export const PlayingField = ({ onModal }) => {
+  const dispatch = useDispatch();
+  const playerX = useSelector(state => state.playerOne);
+  const playerO = useSelector(state => state.playerTwo);
+  const nameX = useSelector(state => state.playerOne.playerName);
+  const scoreX = useSelector(state => state.playerOne.playerScore);
+  const nameO = useSelector(state => state.playerTwo.playerName);
+  const scoreO = useSelector(state => state.playerTwo.playerScore);
+  const winner = useSelector(state => state.winner);
+  const field = useSelector(state => state.field);
 
-  const [activePlayer, ssetActivePlayer] = useState(true);
+  // const [field, setField] = useState([0, 1, 2, 3, 4, 5, 6, 7, 8]);
+  const step = useRef(0);
   const winVariant = [
     [0, 1, 2],
     [3, 4, 5],
@@ -17,56 +33,86 @@ export const PlayingField = () => {
     [0, 4, 8],
     [2, 4, 6],
   ];
+  const players = {
+    1: playerX,
+    0: playerO,
+  };
+  const addWin = {
+    1: addWinXAction,
+    0: addWinOAction,
+  };
 
   useEffect(() => {
-    winVariant.forEach(el => {
-      if (field[el[0]] === field[el[1]] && field[el[0]] === field[el[2]]) {
-        console.log(`win ${field[el[0]]}`);
+    if (winner) {
+      onModal();
+      if (winner !== 'nichyia') {
+        dispatch(addWin[step.current % 2]());
       }
-    });
+    }
+  }, [winner]);
+
+  useEffect(() => {
+    const winTest = winVariant.reduce((acc, el) => {
+      if (field[el[0]] === field[el[1]] && field[el[0]] === field[el[2]]) {
+        acc = field[el[0]];
+      }
+      return acc;
+    }, '');
+    if (winTest) {
+      dispatch(changeWinnerAction(players[step.current % 2].playerName));
+    } else if (step.current === 9) {
+      dispatch(changeWinnerAction('nichyia'));
+    }
   });
 
-  const playerSymbol = {
-    true: 'X',
-    false: 'O',
-  };
   const handleToglePlayer = () => {
-    ssetActivePlayer(prev => !prev);
+    step.current += 1;
   };
 
   const handleOnClick = e => {
+    handleToglePlayer();
+
     const index = Number(e.target.id);
+    const symbol = players[step.current % 2].playerSymbol;
     if (!e.target.textContent) {
-      e.target.textContent = playerSymbol[activePlayer];
-      setField(prev => {
-        prev[index] = playerSymbol[activePlayer];
-        return [...prev];
-      });
-      handleToglePlayer();
+      e.target.textContent = players[step.current % 2].playerSymbol;
+      dispatch(addNewStepAction({ index, symbol }));
     }
   };
 
   return (
-    <div className={s.field}>
-      <table>
-        <tbody onClick={handleOnClick}>
-          <tr>
-            <td id="0"></td>
-            <td id="1"></td>
-            <td id="2"></td>
-          </tr>
-          <tr>
-            <td id="3"></td>
-            <td id="4"></td>
-            <td id="5"></td>
-          </tr>
-          <tr>
-            <td id="6"></td>
-            <td id="7"></td>
-            <td id="8"></td>
-          </tr>
-        </tbody>
-      </table>
+    <div className={s.gameSection}>
+      <div className={s.nameSection}>
+        <div>
+          <p>{nameX}</p>
+          <p>{scoreX}</p>
+        </div>
+        <div>
+          <p>{nameO}</p>
+          <p>{scoreO}</p>
+        </div>
+      </div>
+      <div className={s.field}>
+        <table>
+          <tbody onClick={handleOnClick}>
+            <tr>
+              <td id="0"></td>
+              <td id="1"></td>
+              <td id="2"></td>
+            </tr>
+            <tr>
+              <td id="3"></td>
+              <td id="4"></td>
+              <td id="5"></td>
+            </tr>
+            <tr>
+              <td id="6"></td>
+              <td id="7"></td>
+              <td id="8"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

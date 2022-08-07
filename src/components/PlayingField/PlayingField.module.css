@@ -1,9 +1,35 @@
-.field {
-  display: inline-flex;
-  /* margin: auto; */
+.gameSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
+.nameSection {
+  width: 80vw;
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: space-around;
+}
+.nameSection div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.nameSection p {
+  margin: 0;
+  font-size: 30px;
+  font-weight: 700;
+}
+.field {
+  display: flex;
+}
+
 .field td {
-  background-color: aqua;
+  border: 1px solid gray;
+
   width: 100px;
   height: 100px;
+  color: lightgray;
+  font-size: 40px;
+  font-weight: 700;
+  text-align: center;
 }
