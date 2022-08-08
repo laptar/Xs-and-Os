@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import { useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import s from './PlayingField.module.css';
@@ -8,9 +7,10 @@ import {
   addWinXAction,
   addWinOAction,
   addNewStepAction,
+  nextStepAction,
 } from 'redux/actions';
 
-export const PlayingField = ({ onModal, children }) => {
+export const PlayingField = ({ onModal }) => {
   const dispatch = useDispatch();
   const playerX = useSelector(state => state.playerOne);
   const playerO = useSelector(state => state.playerTwo);
@@ -20,8 +20,9 @@ export const PlayingField = ({ onModal, children }) => {
   // const scoreO = useSelector(state => state.playerTwo.playerScore);
   const winner = useSelector(state => state.winner);
   const field = useSelector(state => state.field);
+  const step = useSelector(state => state.step);
 
-  const step = useRef(0);
+  // const step = useRef(0);
   const winVariant = [
     [0, 1, 2],
     [3, 4, 5],
@@ -45,10 +46,10 @@ export const PlayingField = ({ onModal, children }) => {
     if (winner) {
       onModal();
       if (winner !== 'nichyia') {
-        dispatch(addWin[step.current % 2]());
+        dispatch(addWin[step % 2]());
       }
     }
-  }, [winner, dispatch, onModal]);
+  }, [winner, dispatch, onModal, step]);
 
   useEffect(() => {
     if (!winner) {
@@ -59,24 +60,24 @@ export const PlayingField = ({ onModal, children }) => {
         return acc;
       }, '');
       if (winTest) {
-        dispatch(changeWinnerAction(players[step.current % 2].playerName));
-      } else if (step.current === 9) {
+        dispatch(changeWinnerAction(players[step % 2].playerName));
+      } else if (step === 9) {
         dispatch(changeWinnerAction('nichyia'));
       }
     }
   });
 
   const handleToglePlayer = () => {
-    step.current += 1;
+    dispatch(nextStepAction());
   };
 
   const handleOnClick = e => {
-    const index = Number(e.target.id);
-    const symbol = players[step.current % 2].playerSymbol;
     if (!e.target.textContent) {
+      const index = Number(e.target.id);
+      const symbol = players[(step + 1) % 2].playerSymbol;
       handleToglePlayer();
 
-      e.target.textContent = players[step.current % 2].playerSymbol;
+      e.target.textContent = players[(step + 1) % 2].playerSymbol;
       dispatch(addNewStepAction({ index, symbol }));
     }
   };

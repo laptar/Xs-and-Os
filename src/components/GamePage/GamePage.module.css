@@ -9,13 +9,25 @@
   display: flex;
   justify-content: space-around;
 }
+
+.active {
+  border: 1px solid greenyellow;
+  color: aliceblue;
+}
+.active::before {
+  color: greenyellow;
+  content: 'your turn';
+}
+
 .nameSection div {
+  padding: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 .nameSection p {
   margin: 0;
+  color: inherit;
   font-size: 30px;
   font-weight: 700;
 }

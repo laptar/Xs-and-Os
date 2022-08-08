@@ -1,8 +1,19 @@
+import { useSelector, useDispatch } from 'react-redux';
 import s from './ChangeSymbol.module.css';
 
+import { changePlayerXAction, changePlayerOAction } from 'redux/actions';
+
 export const ChangeSymbol = ({ onChange }) => {
+  const dispatch = useDispatch();
+  const playerX = useSelector(state => state.playerOne);
+  const playerO = useSelector(state => state.playerTwo);
   const handleNo = () => {
     onChange();
+  };
+  const handleYes = () => {
+    onChange();
+    dispatch(changePlayerXAction(playerO));
+    dispatch(changePlayerOAction(playerX));
   };
   return (
     <div className={s.section}>
@@ -14,7 +25,7 @@ export const ChangeSymbol = ({ onChange }) => {
       <p>Do you want to change the symbol?</p>
 
       <div>
-        <button type="button" onClick={handleNo}>
+        <button type="button" onClick={handleYes}>
           Yes
         </button>
         <button type="button" onClick={handleNo}>

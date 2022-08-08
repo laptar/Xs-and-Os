@@ -12,6 +12,10 @@ import {
   resetWinnerAction,
   addNewStepAction,
   resetFieldAction,
+  changePlayerXAction,
+  changePlayerOAction,
+  nextStepAction,
+  resetStepAction,
 } from './actions';
 
 const playerOneReducer = createReducer(initialState.playerOne, {
@@ -24,6 +28,10 @@ const playerOneReducer = createReducer(initialState.playerOne, {
     playerScore: state.playerScore + 1,
   }),
   [resetPlayerOneAction]: () => initialState.playerOne,
+  [changePlayerXAction]: (_, action) => ({
+    ...action.payload,
+    playerSymbol: 'X',
+  }),
 });
 
 const playerTwoReducer = createReducer(initialState.playerTwo, {
@@ -36,6 +44,10 @@ const playerTwoReducer = createReducer(initialState.playerTwo, {
     playerScore: state.playerScore + 1,
   }),
   [resetPlayerTwoAction]: () => initialState.playerTwo,
+  [changePlayerOAction]: (_, action) => ({
+    ...action.payload,
+    playerSymbol: 'O',
+  }),
 });
 
 const winnerReducer = createReducer(initialState.winner, {
@@ -49,9 +61,16 @@ const fieldReducer = createReducer(initialState.field, {
   [resetFieldAction]: () => [...initialState.field],
 });
 
+const stepReducer = createReducer(initialState.step, {
+  [nextStepAction]: state => state + 1,
+
+  [resetStepAction]: () => initialState.step,
+});
+
 export const reducer = {
   playerOne: playerOneReducer,
   playerTwo: playerTwoReducer,
   winner: winnerReducer,
   field: fieldReducer,
+  step: stepReducer,
 };

@@ -7,6 +7,7 @@ import {
   resetFieldAction,
   resetPlayerOneAction,
   resetPlayerTwoAction,
+  resetStepAction,
 } from 'redux/actions';
 
 export const Modal = ({ onClose, onStart, onChange }) => {
@@ -20,12 +21,16 @@ export const Modal = ({ onClose, onStart, onChange }) => {
   const handleContinue = () => {
     dispatch(resetWinnerAction());
     dispatch(resetFieldAction());
+    dispatch(resetStepAction());
+
     onClose();
     onChange();
   };
   const handleEndGame = () => {
     dispatch(resetWinnerAction());
     dispatch(resetFieldAction());
+    dispatch(resetStepAction());
+
     onClose();
     dispatch(resetPlayerOneAction());
     dispatch(resetPlayerTwoAction());
