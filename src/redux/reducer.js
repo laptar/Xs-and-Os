@@ -44,11 +44,8 @@ const winnerReducer = createReducer(initialState.winner, {
 });
 
 const fieldReducer = createReducer(initialState.field, {
-  [addNewStepAction]: (state, action) => {
-    const arr = [...state];
-    arr[action.payload.index] = action.payload.symbol;
-    return arr;
-  },
+  [addNewStepAction]: (_, action) => [...action.payload],
+
   [resetFieldAction]: () => [...initialState.field],
 });
 
