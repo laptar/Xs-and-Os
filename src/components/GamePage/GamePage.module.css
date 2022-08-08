@@ -1,0 +1,21 @@
+.gameSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.nameSection {
+  width: 80vw;
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: space-around;
+}
+.nameSection div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.nameSection p {
+  margin: 0;
+  font-size: 30px;
+  font-weight: 700;
+}

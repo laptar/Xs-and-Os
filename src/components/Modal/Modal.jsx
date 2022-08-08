@@ -9,7 +9,7 @@ import {
   resetPlayerTwoAction,
 } from 'redux/actions';
 
-export const Modal = ({ onClose, onStart }) => {
+export const Modal = ({ onClose, onStart, onChange }) => {
   const dispatch = useDispatch();
   // const nameX = useSelector(state => state.playerOne.playerName);
   // const scoreX = useSelector(state => state.playerOne.playerScore);
@@ -21,9 +21,12 @@ export const Modal = ({ onClose, onStart }) => {
     dispatch(resetWinnerAction());
     dispatch(resetFieldAction());
     onClose();
+    onChange();
   };
   const handleEndGame = () => {
-    handleContinue();
+    dispatch(resetWinnerAction());
+    dispatch(resetFieldAction());
+    onClose();
     dispatch(resetPlayerOneAction());
     dispatch(resetPlayerTwoAction());
     onStart();
