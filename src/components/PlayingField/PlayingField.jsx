@@ -37,19 +37,19 @@ export const PlayingField = ({ onModal }) => {
     1: playerX,
     0: playerO,
   };
-  const addWin = {
-    1: addWinXAction,
-    0: addWinOAction,
-  };
 
   useEffect(() => {
+    const addWin = {
+      1: addWinXAction,
+      0: addWinOAction,
+    };
     if (winner) {
       onModal();
       if (winner !== 'nichyia') {
         dispatch(addWin[step.current % 2]());
       }
     }
-  }, [winner]);
+  }, [winner, onModal, dispatch]);
 
   useEffect(() => {
     const winTest = winVariant.reduce((acc, el) => {
@@ -70,11 +70,11 @@ export const PlayingField = ({ onModal }) => {
   };
 
   const handleOnClick = e => {
-    handleToglePlayer();
-
     const index = Number(e.target.id);
     const symbol = players[step.current % 2].playerSymbol;
     if (!e.target.textContent) {
+      handleToglePlayer();
+
       e.target.textContent = players[step.current % 2].playerSymbol;
       dispatch(addNewStepAction({ index, symbol }));
     }

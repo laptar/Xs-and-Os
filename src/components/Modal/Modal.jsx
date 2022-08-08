@@ -32,7 +32,9 @@ export const Modal = ({ onClose, onStart }) => {
   return (
     <div className={s.overlay} data-overlay>
       <div className={s.modal}>
-        <h2>{winner}</h2>
+        {winner === 'nichyia' && <h2>Drawn game </h2>}
+        {winner !== 'nichyia' && <h2>{winner} is Win!</h2>}
+
         <div>
           <button type="button" onClick={handleContinue}>
             Continue
