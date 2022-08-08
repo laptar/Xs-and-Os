@@ -1,0 +1,26 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.label {
+  display: flex;
+  font-size: 20px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+}
+.name {
+  width: 100px;
+}
+.input {
+  margin-left: 10px;
+  font-size: 20px;
+  padding: 4px;
+}
+.submit {
+  margin-top: 20px;
+  width: 100px;
+  display: block;
+}
